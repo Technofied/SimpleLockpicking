@@ -41,13 +41,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.sk89q.craftbook</groupId>
-			<artifactId>CraftBook</artifactId>
-			<version>LATEST</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/craftbook-3.10.9.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>com.sk89q.worldguard</groupId>
 			<artifactId>worldguard-bukkit</artifactId>
 			<version>7.0.9</version>

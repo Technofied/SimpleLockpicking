@@ -32,8 +32,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.ShermansWorld.SimpleLockpicking.CraftingRecipes;
 import me.ShermansWorld.SimpleLockpicking.Main;
-import me.ShermansWorld.SimpleLockpicking.hooks.CraftBookCompatibility;
-import me.ShermansWorld.SimpleLockpicking.hooks.TownyCompatibility;
 import me.ShermansWorld.SimpleLockpicking.lang.Languages;
 
 public class LockpickListener implements Listener {
@@ -494,57 +492,42 @@ public class LockpickListener implements Listener {
 				return;
 			}
 			if (shulkers.contains(block.getType())) {
-				if (pm.getPlugin("Towny") != null) {
-					TownyCompatibility.TownyShulker(p, block, w);
-					return;
-				} else {
-					if (checkLockpickMap(p)) {
-						return;
-					}
-					p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
-					if (getRandom(Main.getInstance().getConfig().getInt("Chances.ShulkerBox")) == 1) {
-						openShulker(block, w, p);
-					} else {
-						pickFailed(p);
-					}
+				if (checkLockpickMap(p)) {
 					return;
 				}
+				p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
+				if (getRandom(Main.getInstance().getConfig().getInt("Chances.ShulkerBox")) == 1) {
+					openShulker(block, w, p);
+				} else {
+					pickFailed(p);
+				}
+				return;
 			} else if (block.getType() == Material.BARREL && barrelsAllowed) {
-				if (pm.getPlugin("Towny") != null) {
-					TownyCompatibility.TownyBarrel(p, block, w);
-					return;
-				} else {
-					if (checkLockpickMap(p)) {
-						return;
-					}
-					p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
-					if (getRandom(Main.getInstance().getConfig().getInt("Chances.Barrel")) == 1) {
-						openBarrel(block, w, p);
-					} else {
-						pickFailed(p);
-					}
+				if (checkLockpickMap(p)) {
 					return;
 				}
+				p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
+				if (getRandom(Main.getInstance().getConfig().getInt("Chances.Barrel")) == 1) {
+					openBarrel(block, w, p);
+				} else {
+					pickFailed(p);
+				}
+				return;
 			} else if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
 				if ((block.getType() == Material.CHEST && !chestsAllowed)
 						|| (block.getType() == Material.TRAPPED_CHEST && !trappedChestsAllowed)) {
 					return;
 				}
-				if (pm.getPlugin("Towny") != null) {
-					TownyCompatibility.TownyChest(p, block, w);
-					return;
-				} else {
-					if (checkLockpickMap(p)) {
-						return;
-					}
-					p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
-					if (getRandom(Main.getInstance().getConfig().getInt("Chances.Chests")) == 1) {
-						openChest(block, w, p);
-					} else {
-						pickFailed(p);
-					}
+				if (checkLockpickMap(p)) {
 					return;
 				}
+				p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
+				if (getRandom(Main.getInstance().getConfig().getInt("Chances.Chests")) == 1) {
+					openChest(block, w, p);
+				} else {
+					pickFailed(p);
+				}
+				return;
 			} else if (normalDoors.contains(block.getType())) {
 				Door d = (Door) block.getBlockData();
 				if (!d.isOpen()) {
@@ -606,32 +589,6 @@ public class LockpickListener implements Listener {
 					p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
 					if (getRandom(Main.getInstance().getConfig().getInt("Chances.Iron")) == 1) {
 						openTrapdoor(block, w, p);
-					} else {
-						pickFailed(p);
-					}
-				}
-			} else if (Main.usingCraftBook) {
-				// if its a gate block
-				if (CraftBookCompatibility.isGateBlock(block)) {
-					// if gate lockpicking is disabled
-					if (!Main.getInstance().getConfig().getBoolean("Gate.Enabled")) {
-						return;
-					}
-				} else {
-					return;
-				}
-
-				// null if gate sign is found
-				Block gateSign = CraftBookCompatibility.reverseGateCheck(block, p);
-				if (gateSign != null) {
-					// check if already lockpicking something
-					if (checkLockpickMap(p)) {
-						return;
-					}
-					p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
-					if (getRandom(Main.getInstance().getConfig().getInt("Gate.Chance")) == 1) {
-						// open/close gate
-						CraftBookCompatibility.toggleGate(p, gateSign);
 					} else {
 						pickFailed(p);
 					}
